@@ -13,11 +13,7 @@ function comparePrecedence(topOperatorSymbol: string, operatorSymbol: string) {
 	const [topOperatorPrecedence] = precedenceRecord[topOperatorSymbol];
 	const [operatorPrecedence, operatorAssociativity] = precedenceRecord[operatorSymbol];
 
-	if (operatorAssociativity === 'l') {
-		return operatorPrecedence <= topOperatorPrecedence;
-	} else {
-		return operatorPrecedence < topOperatorPrecedence;
-	}
+  return operatorAssociativity === 'l' ? operatorPrecedence <= topOperatorPrecedence : operatorPrecedence < topOperatorPrecedence
 }
 
 export function convertInfixToPostfix(infixString: string) {
