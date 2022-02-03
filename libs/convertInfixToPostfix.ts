@@ -21,7 +21,8 @@ export function convertInfixToPostfix(infixString: string) {
 	let postfixString = '';
 	const nonLiteralSymbols = new Set('()*+/-');
 	const parenthesisSymbols = new Set('()');
-
+  // Remove all empty spaces
+  infixString = infixString.replaceAll(" ", "");
 	for (let index = 0; index < infixString.length; index += 1) {
 		const symbol = infixString[index];
 		// If its a literal
