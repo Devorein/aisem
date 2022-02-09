@@ -1,312 +1,320 @@
-export const R_TYPE_OPERATIONS = ['add', 'addu', 'and', 'break', 'div', 'divu', 'jalr', 'jr', 'mfhi', 'mflo', 'mthi', 'mtlo', 'mult', 'multu', 'nor', 'or', 'sll', 'sllv', 'slt', 'sltu', 'sra', 'srav', 'srl', 'srlv', 'sub', 'subu', 'syscall', 'xor'] as const
+import { RTypeInstruction, RTypeOperations } from "./types";
 
-export const R_TYPE_INSTRUCTIONS_MAP = new Map([
+export const R_TYPE_OPERATIONS = ['add', 'addu', 'and', 'break', 'div', 'divu', 'jalr', 'jr', 'mfhi', 'mflo', 'mthi', 'mtlo', 'mult', 'multu', 'nor', 'or', 'sll', 'sllv', 'slt', 'sltu', 'sra', 'srav', 'srl', 'srlv', 'sub', 'subu', 'syscall', 'xor'] as const
+export const R_TYPE_SLOTS = ["rs", "rd", "rt", "sa"];
+
+export const R_TYPE_INSTRUCTIONS_MAP: Map<RTypeOperations, RTypeInstruction> = new Map([
   [
     "add",
     {
-      "operationName": "add",
-      "functionCode": "100000",
-      "rs": "",
-      "rt": "",
-      "rd": "",
-      "sa": null
+      "op": "add",
+      "fn": "100000",
+      "slots": [
+        "rd",
+        "rs",
+        "rt"
+      ]
     }
   ],
   [
     "addu",
     {
-      "operationName": "addu",
-      "functionCode": "100001",
-      "rs": "",
-      "rt": "",
-      "rd": "",
-      "sa": null
+      "op": "addu",
+      "fn": "100001",
+      "slots": [
+        "rd",
+        "rs",
+        "rt"
+      ]
     }
   ],
   [
     "and",
     {
-      "operationName": "and",
-      "functionCode": "100100",
-      "rs": "",
-      "rt": "",
-      "rd": "",
-      "sa": null
+      "op": "and",
+      "fn": "100100",
+      "slots": [
+        "rd",
+        "rs",
+        "rt"
+      ]
     }
   ],
   [
     "break",
     {
-      "operationName": "break",
-      "functionCode": "001101",
-      "rs": null,
-      "rt": null,
-      "rd": null,
-      "sa": null
+      "op": "break",
+      "fn": "001101",
+      "slots": []
     }
   ],
   [
     "div",
     {
-      "operationName": "div",
-      "functionCode": "011010",
-      "rs": "",
-      "rt": "",
-      "rd": null,
-      "sa": null
+      "op": "div",
+      "fn": "011010",
+      "slots": [
+        "rs",
+        "rt"
+      ]
     }
   ],
   [
     "divu",
     {
-      "operationName": "divu",
-      "functionCode": "011011",
-      "rs": "",
-      "rt": "",
-      "rd": null,
-      "sa": null
+      "op": "divu",
+      "fn": "011011",
+      "slots": [
+        "rs",
+        "rt"
+      ]
     }
   ],
   [
     "jalr",
     {
-      "operationName": "jalr",
-      "functionCode": "001001",
-      "rs": "",
-      "rt": null,
-      "rd": "",
-      "sa": null
+      "op": "jalr",
+      "fn": "001001",
+      "slots": [
+        "rd",
+        "rs"
+      ]
     }
   ],
   [
     "jr",
     {
-      "operationName": "jr",
-      "functionCode": "001000",
-      "rs": "",
-      "rt": null,
-      "rd": null,
-      "sa": null
+      "op": "jr",
+      "fn": "001000",
+      "slots": [
+        "rs"
+      ]
     }
   ],
   [
     "mfhi",
     {
-      "operationName": "mfhi",
-      "functionCode": "010000",
-      "rs": null,
-      "rt": null,
-      "rd": "",
-      "sa": null
+      "op": "mfhi",
+      "fn": "010000",
+      "slots": [
+        "rd"
+      ]
     }
   ],
   [
     "mflo",
     {
-      "operationName": "mflo",
-      "functionCode": "010010",
-      "rs": null,
-      "rt": null,
-      "rd": "",
-      "sa": null
+      "op": "mflo",
+      "fn": "010010",
+      "slots": [
+        "rd"
+      ]
     }
   ],
   [
     "mthi",
     {
-      "operationName": "mthi",
-      "functionCode": "010001",
-      "rs": "",
-      "rt": null,
-      "rd": null,
-      "sa": null
+      "op": "mthi",
+      "fn": "010001",
+      "slots": [
+        "rs"
+      ]
     }
   ],
   [
     "mtlo",
     {
-      "operationName": "mtlo",
-      "functionCode": "010011",
-      "rs": "",
-      "rt": null,
-      "rd": null,
-      "sa": null
+      "op": "mtlo",
+      "fn": "010011",
+      "slots": [
+        "rs"
+      ]
     }
   ],
   [
     "mult",
     {
-      "operationName": "mult",
-      "functionCode": "011000",
-      "rs": "",
-      "rt": "",
-      "rd": null,
-      "sa": null
+      "op": "mult",
+      "fn": "011000",
+      "slots": [
+        "rs",
+        "rt"
+      ]
     }
   ],
   [
     "multu",
     {
-      "operationName": "multu",
-      "functionCode": "011001",
-      "rs": "",
-      "rt": "",
-      "rd": null,
-      "sa": null
+      "op": "multu",
+      "fn": "011001",
+      "slots": [
+        "rs",
+        "rt"
+      ]
     }
   ],
   [
     "nor",
     {
-      "operationName": "nor",
-      "functionCode": "100111",
-      "rs": "",
-      "rt": "",
-      "rd": "",
-      "sa": null
+      "op": "nor",
+      "fn": "100111",
+      "slots": [
+        "rd",
+        "rs",
+        "rt"
+      ]
     }
   ],
   [
     "or",
     {
-      "operationName": "or",
-      "functionCode": "100101",
-      "rs": "",
-      "rt": "",
-      "rd": "",
-      "sa": null
+      "op": "or",
+      "fn": "100101",
+      "slots": [
+        "rd",
+        "rs",
+        "rt"
+      ]
     }
   ],
   [
     "sll",
     {
-      "operationName": "sll",
-      "functionCode": "000000",
-      "rs": null,
-      "rt": "",
-      "rd": "",
-      "sa": ""
+      "op": "sll",
+      "fn": "000000",
+      "slots": [
+        "rd",
+        "rt",
+        "sa"
+      ]
     }
   ],
   [
     "sllv",
     {
-      "operationName": "sllv",
-      "functionCode": "000100",
-      "rs": "",
-      "rt": "",
-      "rd": "",
-      "sa": null
+      "op": "sllv",
+      "fn": "000100",
+      "slots": [
+        "rd",
+        "rs",
+        "rt"
+      ]
     }
   ],
   [
     "slt",
     {
-      "operationName": "slt",
-      "functionCode": "101010",
-      "rs": "",
-      "rt": "",
-      "rd": "",
-      "sa": null
+      "op": "slt",
+      "fn": "101010",
+      "slots": [
+        "rd",
+        "rs",
+        "rt"
+      ]
     }
   ],
   [
     "sltu",
     {
-      "operationName": "sltu",
-      "functionCode": "101011",
-      "rs": "",
-      "rt": "",
-      "rd": "",
-      "sa": null
+      "op": "sltu",
+      "fn": "101011",
+      "slots": [
+        "rd",
+        "rs",
+        "rt"
+      ]
     }
   ],
   [
     "sra",
     {
-      "operationName": "sra",
-      "functionCode": "000011",
-      "rs": null,
-      "rt": "",
-      "rd": "",
-      "sa": ""
+      "op": "sra",
+      "fn": "000011",
+      "slots": [
+        "rd",
+        "rt",
+        "sa"
+      ]
     }
   ],
   [
     "srav",
     {
-      "operationName": "srav",
-      "functionCode": "000111",
-      "rs": "",
-      "rt": "",
-      "rd": "",
-      "sa": null
+      "op": "srav",
+      "fn": "000111",
+      "slots": [
+        "rd",
+        "rs",
+        "rt"
+      ]
     }
   ],
   [
     "srl",
     {
-      "operationName": "srl",
-      "functionCode": "000010",
-      "rs": null,
-      "rt": "",
-      "rd": "",
-      "sa": ""
+      "op": "srl",
+      "fn": "000010",
+      "slots": [
+        "rd",
+        "rt",
+        "sa"
+      ]
     }
   ],
   [
     "srlv",
     {
-      "operationName": "srlv",
-      "functionCode": "000110",
-      "rs": "",
-      "rt": "",
-      "rd": "",
-      "sa": null
+      "op": "srlv",
+      "fn": "000110",
+      "slots": [
+        "rd",
+        "rs",
+        "rt"
+      ]
     }
   ],
   [
     "sub",
     {
-      "operationName": "sub",
-      "functionCode": "100010",
-      "rs": "",
-      "rt": "",
-      "rd": "",
-      "sa": null
+      "op": "sub",
+      "fn": "100010",
+      "slots": [
+        "rd",
+        "rs",
+        "rt"
+      ]
     }
   ],
   [
     "subu",
     {
-      "operationName": "subu",
-      "functionCode": "100011",
-      "rs": "",
-      "rt": "",
-      "rd": "",
-      "sa": null
+      "op": "subu",
+      "fn": "100011",
+      "slots": [
+        "rd",
+        "rs",
+        "rt"
+      ]
     }
   ],
   [
     "syscall",
     {
-      "operationName": "syscall",
-      "functionCode": "001100",
-      "rs": null,
-      "rt": null,
-      "rd": null,
-      "sa": null
+      "op": "syscall",
+      "fn": "001100",
+      "slots": []
     }
   ],
   [
     "xor",
     {
-      "operationName": "xor",
-      "functionCode": "100110",
-      "rs": "",
-      "rt": "",
-      "rd": "",
-      "sa": null
+      "op": "xor",
+      "fn": "100110",
+      "slots": [
+        "rd",
+        "rs",
+        "rt"
+      ]
     }
   ]
-])
+]);
