@@ -1,15 +1,22 @@
 export function dec2bin(dec: number, bitLength: number) {
   const binary = (dec >>> 0).toString(2);
-  if (binary.length > bitLength) {
-    const difference = binary.length - bitLength;
+  const difference = binary.length - bitLength;
+  if (difference > 0) {
     return binary.slice(difference)
-  }
+  } else if (difference < 0) {
+    let paddedZero = "";
+    const absDiff = Math.abs(difference);
+    for (let index = 0; index < absDiff; index ++) {
+      paddedZero += "0"
+    }
+    return paddedZero + binary;
+  } 
   return binary;
 }
 
 export function convertTorSRegisters(registerChunks: string[]) {
   const registerSymbol = registerChunks[0];
-  const registerNumber = Number(registerChunks[1]);
+  const registerNumber = Number(registerChunks.slice(1));
   // Only t0-t7 and t8-t9 are valid
   if (registerSymbol === "t") {
     if ((registerNumber >= 0 && registerNumber <= 7)) {
@@ -34,10 +41,10 @@ export default function convertRegisterToBinary(register: string) {
   // Register could be $1, $t1, t1
   const registerStringLength = register.length;
   const registerChunks = register.split("");
-  // Its either "t1" or $1
+  // Its either "t1" or $8
   if (registerStringLength === 2) {
     if (registerChunks[0] === "$") {
-      const registerNumber = Number(registerChunks[1]);
+      const registerNumber = Number(registerChunks.slice(1));
       // for "$1", we must make sure its within range
       if ((registerNumber >= 8 && registerNumber <= 15) || registerNumber == 24 || registerNumber == 25 || (registerNumber >=16 && registerNumber <= 23)) {
         return dec2bin(registerNumber, 5);
@@ -49,7 +56,14 @@ export default function convertRegisterToBinary(register: string) {
   // for $t1 
   else if (registerStringLength === 3) {
     if (registerChunks[0] === "$") {
-      return convertTorSRegisters(registerChunks.slice(1))
+      // For $t1
+      if (registerChunks[1] === "t" || registerChunks[1] === "s") {
+        return convertTorSRegisters(registerChunks.slice(1))
+      } 
+      // For $11
+      else {
+        return dec2bin(Number(registerChunks.slice(1).join("")), 5);
+      }
     }
     throw new Error(`Invalid register format. Use $t1, $s5 ...`)
   }

@@ -1,19 +1,13 @@
-import { R_TYPE_INSTRUCTIONS_MAP, R_TYPE_OPERATIONS } from "../constants";
+import { R_TYPE_INSTRUCTIONS_MAP } from "../constants";
 import { RTypeOperations } from "../types";
 import convertRegisterToBinary, { dec2bin } from "./convertRegisterToBinary";
 
-const rTypeOperations = new Set(R_TYPE_OPERATIONS)
-const validOperations = new Set(...rTypeOperations);
-
-export default function parseAssembly(assembly: string) {
-  const tokens = assembly.split(" ");
-  const operation = tokens[0];
-  const operands = tokens.slice(1);
+export default function convertToMachineCode(assemblyInstruction: string) {
+  const tokens = assemblyInstruction.split(" ");
   // The first token would be the operation,
-  // If its not a valid operation we need to throw an error
-  if (!validOperations.has(operation)) {
-    throw new Error(`Invalid operation ${operation}`);
-  }
+  const operation = tokens[0];
+  // The rest are operands for the operation
+  const operands = tokens.slice(1);
   const rTypeOperation = R_TYPE_INSTRUCTIONS_MAP.get(operation as RTypeOperations);
   if (rTypeOperation) {
     const { slots } = rTypeOperation;
@@ -63,4 +57,6 @@ export default function parseAssembly(assembly: string) {
       return chunks
     }
   }
+  // If its not a valid operation we need to throw an error
+  throw new Error(`Invalid operation ${operation}`);
 }

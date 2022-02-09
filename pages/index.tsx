@@ -1,48 +1,45 @@
 import styled from '@emotion/styled';
 import { Box, Button, TextField } from '@mui/material';
+import { red } from '@mui/material/colors';
 import type { NextPage } from 'next';
 import { useState } from 'react';
-import { convertInfixToPostfix } from "../libs/convertInfixToPostfix";
-import convertPostfixToAssembly from '../libs/convertPostfixToAssembly';
+import convertToMachineCode from '../libs/convertToMachineCode';
 import styles from '../styles/Home.module.css';
-import { AssemblyOperation } from '../types';
 
 const Flex = styled.div`
   display: flex;
 `
-
 const Home: NextPage = () => {
-  const [infixExpression, setInfixExpression] = useState<null | string>(null)
-  const [postfixExpression, setPostfixExpression] = useState<null | string>(null);
-  const [assemblyOperations, setAssemblyOperations] = useState<AssemblyOperation[]>([]);
+  const [assemblyInstruction, setAssemblyInstruction] = useState<string>("");
+  const [machineCode, setMachineCode] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   return (
     <div className={styles.container}>
-      <TextField onChange={e => setInfixExpression(e.target.value)} value={infixExpression ?? ""}/>
-      <Box>{postfixExpression}</Box>
+      <TextField onChange={e => setAssemblyInstruction(e.target.value)} value={assemblyInstruction}/>
       <Flex>
-        <Button variant="contained" disabled={!infixExpression} onClick={() => {
-          if (infixExpression) {
-            setPostfixExpression(convertInfixToPostfix(infixExpression))
+        <Button variant="contained" disabled={!assemblyInstruction} onClick={() => {
+          if (assemblyInstruction) {
+            try {
+              const machineCodeChunks = convertToMachineCode(assemblyInstruction);
+              setMachineCode(machineCodeChunks!.join(" "))
+              setErrorMessage(null)
+            } catch(err: any) {
+              setErrorMessage(err.message)
+            }
           }
-        }}>Convert to Postfix</Button>
-        <Button onClick={() => {
-          if (postfixExpression) {
-            setAssemblyOperations(convertPostfixToAssembly(postfixExpression))
-          }
-        }} variant="contained" disabled={!postfixExpression}>
-          Convert to MIPS
-        </Button>
+        }}>Convert to Machine Code</Button>
       </Flex>
-
-      {assemblyOperations.length !== 0 && <Box>
-        {assemblyOperations.map(({operands, destination, operation}) => {
-          return <Flex key={operation + destination + operands.join(" ")}>
-            <span>{operation}</span> 
-            <span>$t{destination}</span>
-            {operands.map((operand, operandIndex) => <span key={operand}>$s{operand}{operandIndex === operands.length - 1 ? "" : ", "}</span>)}
-          </Flex>
-        })}
+      <Box>
+        Machine code: <Box component="span" sx={{
+          fontWeight: 500
+        }}>{machineCode}</Box>
+      </Box>
+      {errorMessage && <Box sx={{
+        color: red[500],
+        fontWeight: 500
+      }}>
+        Error: {errorMessage}
       </Box>}
     </div>
   )
