@@ -25,6 +25,12 @@ export default function parseAssembly(assembly: string) {
       // First 6 zeros represent a r type instruction
       const chunks: string[] = ["000000"];
 
+      if (slotsSet.has("rd")) {
+        chunks.push("rd")
+      } else {
+        chunks.push("00000")
+      }
+
       if (slotsSet.has("rs")) {
         // TODO: Convert register to binary
         chunks.push("rs")
@@ -34,12 +40,6 @@ export default function parseAssembly(assembly: string) {
 
       if (slotsSet.has("rt")) {
         chunks.push("rt")
-      } else {
-        chunks.push("00000")
-      }
-
-      if (slotsSet.has("rd")) {
-        chunks.push("rd")
       } else {
         chunks.push("00000")
       }
