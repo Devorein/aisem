@@ -12,3 +12,9 @@ export interface RTypeInstruction {
   slots: RTypeSlots[]
   fn: string
 }
+
+export interface Instruction {
+  op: string
+  slots: string[]
+  fn: string
+}
