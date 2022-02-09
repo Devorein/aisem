@@ -1,5 +1,6 @@
 import { R_TYPE_INSTRUCTIONS_MAP, R_TYPE_OPERATIONS } from "../constants";
 import { RTypeOperations } from "../types";
+import convertRegisterToBinary, { dec2bin } from "./convertRegisterToBinary";
 
 const rTypeOperations = new Set(R_TYPE_OPERATIONS)
 const validOperations = new Set(...rTypeOperations);
@@ -25,32 +26,41 @@ export default function parseAssembly(assembly: string) {
       // First 6 zeros represent a r type instruction
       const chunks: string[] = ["000000"];
 
+      // ALGORITHM
+      // find the index of slot inside of slots
+      // Eg: div rs, rt
+      // div operation doesn't have rd
+      // So its slot would be ["rs", "rt"]
+      // If we used slots[1] => "rt"
+      // slots.indexOf("rs") => 0
+      // operands = ["2", "3"]
+      // operands[0] => 2
       if (slotsSet.has("rd")) {
-        chunks.push("rd")
+        chunks.push(convertRegisterToBinary(operands[slots.indexOf("rd")]))
       } else {
         chunks.push("00000")
       }
 
       if (slotsSet.has("rs")) {
-        // TODO: Convert register to binary
-        chunks.push("rs")
+        chunks.push(convertRegisterToBinary(operands[slots.indexOf("rs")]))
       } else {
         chunks.push("00000")
       }
 
       if (slotsSet.has("rt")) {
-        chunks.push("rt")
+        chunks.push(convertRegisterToBinary(operands[slots.indexOf("rt")]))
       } else {
         chunks.push("00000")
       }
 
+      // TODO: Might not work for negative numbers
       if (slotsSet.has("sa")) {
-        chunks.push("sa")
+        chunks.push(dec2bin(Number(operands[slots.indexOf("rs")]), 5))
       } else {
         chunks.push("00000")
       }
       chunks.push(rTypeOperation.fn)
-      return chunks.join(" ")
+      return chunks
     }
   }
 }
