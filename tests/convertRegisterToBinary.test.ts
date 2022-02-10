@@ -1,4 +1,18 @@
-import convert, { convertRegisterToBinary } from "../libs/convertRegisterToBinary";
+import convert, { convertRegisterToBinary, dec2bin } from "../libs/convertRegisterToBinary";
+
+describe('first', () => { 
+  it(`Bit difference is 0`, () => {
+    expect(dec2bin(8)).toBe("1000")
+  })
+
+  it("Bit difference is negative", ()=> {
+    expect(dec2bin(8, 3)).toBe("000")
+  })
+
+  it("Bit difference is positive", ()=> {
+    expect(dec2bin(8, 7)).toBe("0001000")
+  })
+})
 
 describe('convertRegisterToBinary', () => { 
   describe('t registers', () => { 

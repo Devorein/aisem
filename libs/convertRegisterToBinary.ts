@@ -1,6 +1,6 @@
-export function dec2bin(dec: number, bitLength: number) {
+export function dec2bin(dec: number, bitLength?: number) {
 	const binary = (dec >>> 0).toString(2);
-	const difference = binary.length - bitLength;
+	const difference = bitLength ? binary.length - bitLength : 0;
 	if (difference > 0) {
 		return binary.slice(difference);
 	} else if (difference < 0) {
