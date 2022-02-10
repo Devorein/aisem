@@ -2,7 +2,7 @@ import { R_TYPE_INSTRUCTIONS_MAP } from "../constants";
 import { RTypeOperations } from "../types";
 import convertRegisterToBinary, { dec2bin } from "./convertRegisterToBinary";
 
-export default function convertToMachineCode(assemblyInstruction: string) {
+export default function convertAssemblyToMachineCode(assemblyInstruction: string) {
   const tokens = assemblyInstruction.split(" ");
   // The first token would be the operation,
   const operation = tokens[0];
@@ -15,7 +15,7 @@ export default function convertToMachineCode(assemblyInstruction: string) {
     const totalSlots = slotsSet.size;
     // If the number of slots that the operation expects isn't provided by the user
     if (totalSlots !== operands.length) {
-      throw new Error(`Operation ${operation} requires ${slots.join(",")}. Given ${operands.join(",")}`)
+      throw new Error(`Operation ${operation} requires ${slots.join(",")}. Given ${slots.slice(0, operands.length).join(",")}`)
     } else {
       // First 6 zeros represent a r type instruction
       const chunks: string[] = ["000000"];
@@ -29,11 +29,6 @@ export default function convertToMachineCode(assemblyInstruction: string) {
       // slots.indexOf("rs") => 0
       // operands = ["2", "3"]
       // operands[0] => 2
-      if (slotsSet.has("rd")) {
-        chunks.push(convertRegisterToBinary(operands[slots.indexOf("rd")]))
-      } else {
-        chunks.push("00000")
-      }
 
       if (slotsSet.has("rs")) {
         chunks.push(convertRegisterToBinary(operands[slots.indexOf("rs")]))
@@ -47,9 +42,15 @@ export default function convertToMachineCode(assemblyInstruction: string) {
         chunks.push("00000")
       }
 
+      if (slotsSet.has("rd")) {
+        chunks.push(convertRegisterToBinary(operands[slots.indexOf("rd")]))
+      } else {
+        chunks.push("00000")
+      }
+
       // TODO: Might not work for negative numbers
       if (slotsSet.has("sa")) {
-        chunks.push(dec2bin(Number(operands[slots.indexOf("rs")]), 5))
+        chunks.push(dec2bin(Number(operands[slots.indexOf("sa")]), 5))
       } else {
         chunks.push("00000")
       }

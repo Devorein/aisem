@@ -3,7 +3,7 @@ import { Box, Button, TextField } from '@mui/material';
 import { red } from '@mui/material/colors';
 import type { NextPage } from 'next';
 import { useState } from 'react';
-import convertToMachineCode from '../libs/convertToMachineCode';
+import convertToMachineCode from '../libs/convertAssemblyToMachineCode';
 import styles from '../styles/Home.module.css';
 
 const Flex = styled.div`
@@ -16,7 +16,7 @@ const Home: NextPage = () => {
 
   return (
     <div className={styles.container}>
-      <TextField onChange={e => setAssemblyInstruction(e.target.value)} value={assemblyInstruction}/>
+      <TextField onChange={e => setAssemblyInstruction(e.target.value)} value={assemblyInstruction} />
       <Flex>
         <Button variant="contained" disabled={!assemblyInstruction} onClick={() => {
           if (assemblyInstruction) {
@@ -24,7 +24,7 @@ const Home: NextPage = () => {
               const machineCodeChunks = convertToMachineCode(assemblyInstruction);
               setMachineCode(machineCodeChunks!.join(" "))
               setErrorMessage(null)
-            } catch(err: any) {
+            } catch (err: any) {
               setErrorMessage(err.message)
             }
           }
