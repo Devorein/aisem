@@ -33,24 +33,23 @@ export function convertRegisterToBinary(registerChunks: string[]) {
 }
 
 export default function convert(register: string) {
-	// Register could be $1, $t1, t1
+	// Register could be $1, $t1, t1, $11
 	const registerStringLength = register.length;
 	const registerChunks = register.split('');
-	// Its either "t1" or $8
+  // Its either "t1" or $8
 	if (registerStringLength === 2) {
+    // for $1
 		if (registerChunks[0] === '$') {
-			const registerNumber = Number(registerChunks.slice(1));
-			// for "$1", we must make sure its within range
+			const registerNumber = Number(registerChunks[1]);
+			// Only $8 and $9 can be of two length
 			if (
-				(registerNumber >= 8 && registerNumber <= 15) ||
-				registerNumber == 24 ||
-				registerNumber == 25 ||
-				(registerNumber >= 16 && registerNumber <= 23)
+				(registerNumber >= 8 && registerNumber <= 9)
 			) {
 				return dec2bin(registerNumber, 5);
 			}
 			throw new Error(`Valid register ranges are from 8-15, 24-25 and 16-23`);
 		}
+    // For t1 | s1
 		return convertRegisterToBinary(registerChunks);
 	}
 	// for $t1
@@ -62,10 +61,19 @@ export default function convert(register: string) {
 			}
 			// For $11
 			else {
-				return dec2bin(Number(registerChunks.slice(1).join('')), 5);
+  			const registerNumber = Number(registerChunks.slice(1).join(""));
+        if (
+          (registerNumber >= 8 && registerNumber <= 15) ||
+          registerNumber == 24 ||
+          registerNumber == 25 ||
+          (registerNumber >= 16 && registerNumber <= 23)
+        ) {
+  				return dec2bin(Number(registerChunks.slice(1).join('')), 5);
+        }
+        throw new Error(`Valid register ranges are from 8-15, 24-25 and 16-23`);
 			}
 		}
-		throw new Error(`Invalid register format. Use $t1, $s5 ...`);
+		throw new Error(`Invalid register format. Use $11, $t1, $s5 ...`);
 	}
 
 	throw new Error(`Invalid register format ${register}. Valid formats are $1, t1, $t1`);
