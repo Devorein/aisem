@@ -4,7 +4,7 @@ export function dec2bin(dec: number, bitLength: number) {
 	if (difference > 0) {
 		return binary.slice(difference);
 	} else if (difference < 0) {
-		return new Array(difference).fill('0').join('') + binary;
+		return new Array(Math.abs(difference)).fill('0').join('') + binary;
 	}
 	return binary;
 }
@@ -21,13 +21,13 @@ export function convertRegisterToBinary(registerChunks: string[]) {
 			// t8 would be translated to decimal 24
 			return dec2bin(registerNumber + 16, 5);
 		}
-		throw new Error(`Valid t register ranges are from 8-15, 24-25 and 16-23`);
+		throw new Error(`Valid t register range is from 0-9`);
 	} else if (registerSymbol === 's') {
 		if (registerNumber >= 0 && registerNumber <= 7) {
 			// s0 would be translated to decimal 16
 			return dec2bin(registerNumber + 16, 5);
 		}
-		throw new Error(`Valid s register ranges is from 16-23`);
+		throw new Error(`Valid s register ranges is from 0-7`);
 	}
 	throw new Error(`Only s or t registers can be used`);
 }
