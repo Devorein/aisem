@@ -1,4 +1,3 @@
-import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import MemoryIcon from '@mui/icons-material/Memory';
@@ -6,6 +5,8 @@ import { Box, Button, IconButton, Paper, TextField, Tooltip, Typography } from '
 import { red } from '@mui/material/colors';
 import type { NextPage } from 'next';
 import { useState } from 'react';
+import Snackbar from '../components/Snackbar';
+import useSnackbar from '../hooks/useSnackbar';
 import convertToMachineCode from '../libs/convertAssemblyToMachineCode';
 
 const Flex = styled.div`
@@ -29,7 +30,7 @@ const Home: NextPage = () => {
   const [assemblyInstruction, setAssemblyInstruction] = useState<string>("");
   const [machineCode, setMachineCode] = useState<string[] | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
-  const theme = useTheme();
+  const {handleClose, isOpen, message, showMessage} = useSnackbar();
 
   return (
     <FlexCol sx={{
@@ -64,11 +65,13 @@ const Home: NextPage = () => {
           display: "flex",
           gap: 1,
           alignItems: "center"
-        }}> <Box>Machine code:</Box> {machineCode?.map(chunk => <BinaryCode key={chunk}>{chunk}</BinaryCode>)?? "N/A"} <Tooltip title={"Copy to clipboard"} placement={"right"}>
+        }}> <Box>Machine code:</Box> {machineCode?.map(chunk => <BinaryCode key={chunk}>{chunk}</BinaryCode>)?? "N/A"} {machineCode && <Tooltip onClick={() => {
+          showMessage("Copied to clipboard")
+        }} title={"Copy to clipboard"} placement={"right"}>
           <IconButton>
             <ContentCopyIcon fontSize="small"/>
           </IconButton>
-        </Tooltip>
+        </Tooltip>}
       </Typography>
       </Box>
       <Box sx={{
@@ -77,6 +80,7 @@ const Home: NextPage = () => {
       }}>
         {errorMessage ? `Error: ${errorMessage}` : null}
       </Box>
+      <Snackbar autoHideDuration={1500} severity='success' handleClose={handleClose} isOpen={isOpen} message={message ?? ''} />
     </FlexCol>
   )
 }

@@ -204,6 +204,13 @@ export function generateTheme() {
           }
         }
       },
+      MuiAlert: {
+        styleOverrides: {
+          filledSuccess: {
+            backgroundColor: "rgba(0,195,117)"
+          }
+        }
+      },
       MuiFormControl: {
         styleOverrides: {
           root: {
