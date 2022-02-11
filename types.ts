@@ -18,3 +18,10 @@ export interface Instruction {
   slots: string[]
   fn: string
 }
+
+export interface IConversion {
+  operation: string
+  operands: string[]
+  binary: string
+  hex: string
+}
