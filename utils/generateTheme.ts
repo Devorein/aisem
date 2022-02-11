@@ -55,9 +55,9 @@ export function generateTheme() {
 
   switch (theme) {
     case 'dark': {
-      color.light = grey[800];
-      color.dark = grey[900];
       color.base = darken(grey[800], 0.25);
+      color.light = lighten(color.base, 0.05);
+      color.dark = grey[900];
       color.opposite_light = lighten(grey[200], 0.5);
       color.opposite_dark = grey[300];
       color.opposite_base = grey[200];
