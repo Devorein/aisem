@@ -1,13 +1,19 @@
 import { ThemeProvider } from '@mui/material';
 import type { AppProps } from 'next/app';
+import { useState } from 'react';
+import ConversionsContext from '../contexts/ConversionsContext';
 import '../styles/globals.css';
+import { IConversion } from '../types';
 import { generateTheme } from '../utils/generateTheme';
 
 const generatedTheme = generateTheme();
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const [conversions, setConversions] = useState<IConversion[]>([]);
   return <ThemeProvider theme={generatedTheme}>
-    <Component {...pageProps} />
+    <ConversionsContext.Provider value={{conversions, setConversions}}>
+      <Component {...pageProps} />
+    </ConversionsContext.Provider>
   </ThemeProvider>
 }
 

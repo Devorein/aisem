@@ -193,6 +193,9 @@ export function generateTheme() {
             margin: 0,
             padding: 0,
           }
+        },
+        defaultProps: {
+          disableRipple: true
         }
       },
       MuiFormControlLabel: {
