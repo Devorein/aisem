@@ -1,4 +1,6 @@
+import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
+import MemoryIcon from '@mui/icons-material/Memory';
 import { Box, Button, Paper, TextField, Typography } from '@mui/material';
 import { red } from '@mui/material/colors';
 import type { NextPage } from 'next';
@@ -10,39 +12,56 @@ const Flex = styled.div`
 `
 const Home: NextPage = () => {
   const [assemblyInstruction, setAssemblyInstruction] = useState<string>("");
-  const [machineCode, setMachineCode] = useState<string | null>(null);
+  const [machineCode, setMachineCode] = useState<string[] | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const theme = useTheme();
 
   return (
     <Paper sx={{
-      height: "100%"
+      height: "100%",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      flexDirection: "column",
+      gap: 2
     }}>
       <TextField onChange={e => setAssemblyInstruction(e.target.value)} value={assemblyInstruction} />
       <Flex>
-        <Button variant="contained" disabled={!assemblyInstruction} onClick={() => {
+        <Button sx={{
+          display: "flex",
+          gap: 1
+        }} variant="contained" disabled={!assemblyInstruction} onClick={() => {
           if (assemblyInstruction) {
             try {
               const machineCodeChunks = convertToMachineCode(assemblyInstruction);
-              setMachineCode(machineCodeChunks!.join(" "))
+              setMachineCode(machineCodeChunks)
               setErrorMessage(null)
             } catch (err: any) {
               setErrorMessage(err.message)
             }
           }
-        }}>Convert to Machine Code</Button>
+        }}>
+          <MemoryIcon />
+          <Typography variant="button">
+            Convert
+          </Typography>
+        </Button>
       </Flex>
       <Box>
-        Machine code: <Typography component="span" sx={{
-          fontWeight: 500
-        }}>{machineCode}
+        <Typography component="span" sx={{
+          fontWeight: 500,
+          display: "flex",
+          gap: 1,
+          alignItems: "center"
+        }}>Machine code: {machineCode?.map(chunk => <Box key={chunk} sx={{ padding: theme.spacing(0.5, 1), borderRadius: theme.spacing(0.5), background: theme.palette.color.dark}}>{chunk}</Box>)?? "N/A"}
       </Typography>
       </Box>
-      {errorMessage && <Box sx={{
+      <Box sx={{
         color: red[500],
         fontWeight: 500
       }}>
-        Error: {errorMessage}
-      </Box>}
+        {errorMessage ? `Error: ${errorMessage}` : null}
+      </Box>
     </Paper>
   )
 }

@@ -1,5 +1,6 @@
 import { createTheme, darken, lighten, Theme as MaterialUITheme, ThemeOptions } from "@mui/material";
 import { grey } from "@mui/material/colors";
+import shadows from "@mui/material/styles/shadows";
 
 declare module '@emotion/react' {
   export interface Theme extends MaterialUITheme {}
@@ -79,6 +80,8 @@ export function generateTheme() {
     }
   }
 
+  const primaryMain = "rgba(0,255,117, 0.9)";
+
   const { light, base, dark } = color;
 
   const themeOptions: ThemeOptions = {
@@ -93,13 +96,16 @@ export function generateTheme() {
         default: base
       },
       primary: {
-        main: "rgba(0,255,117, 0.9)"
+        main: primaryMain
       },
     },
     
     typography: {
       fontFamily: 'Space Mono',
       fontSize: 14,
+      button: {
+        fontWeight: "bold"
+      },
       h5: {
         fontWeight: 'bold',
         fontSize: '1.25em'
@@ -110,11 +116,10 @@ export function generateTheme() {
       }
     },
     components: {
-      MuiButton: {
+      MuiTextField: {
         styleOverrides: {
-          contained: {
-            fontSize: '1em',
-            fontWeight: 'bold'
+          root: {
+            borderRadius: 5
           }
         }
       },
@@ -173,7 +178,7 @@ export function generateTheme() {
         styleOverrides: {
           root: {
             margin: 0,
-            padding: 0
+            padding: 0,
           }
         }
       },
@@ -200,19 +205,20 @@ export function generateTheme() {
         styleOverrides: {
           root: {
             backgroundColor: light,
-            padding: 5
           }
-        }
-      },
-      MuiTextField: {
-        defaultProps: {
-          
         }
       },
       MuiOutlinedInput: {
         styleOverrides: {
+          root: {
+            border: "none",
+            boxShadow: shadows[2],
+          },
           input: {
             padding: 10
+          },
+          notchedOutline: {
+            border: "none"
           }
         }
       },
