@@ -7,6 +7,11 @@ export const FlexAlignCenter = styled(Paper)`
   align-items: center;
 `;
 
+export const FlexAlignCenterBox = styled(Box)`
+  display: flex;
+  align-items: center;
+`;
+
 export const FlexCenter = styled(Paper)`
   display: flex;
   justify-content: center;
