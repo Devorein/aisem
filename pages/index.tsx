@@ -1,10 +1,9 @@
 import styled from '@emotion/styled';
-import { Box, Button, TextField } from '@mui/material';
+import { Box, Button, Paper, TextField, Typography } from '@mui/material';
 import { red } from '@mui/material/colors';
 import type { NextPage } from 'next';
 import { useState } from 'react';
 import convertToMachineCode from '../libs/convertAssemblyToMachineCode';
-import styles from '../styles/Home.module.css';
 
 const Flex = styled.div`
   display: flex;
@@ -15,7 +14,9 @@ const Home: NextPage = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   return (
-    <div className={styles.container}>
+    <Paper sx={{
+      height: "100%"
+    }}>
       <TextField onChange={e => setAssemblyInstruction(e.target.value)} value={assemblyInstruction} />
       <Flex>
         <Button variant="contained" disabled={!assemblyInstruction} onClick={() => {
@@ -31,9 +32,10 @@ const Home: NextPage = () => {
         }}>Convert to Machine Code</Button>
       </Flex>
       <Box>
-        Machine code: <Box component="span" sx={{
+        Machine code: <Typography component="span" sx={{
           fontWeight: 500
-        }}>{machineCode}</Box>
+        }}>{machineCode}
+      </Typography>
       </Box>
       {errorMessage && <Box sx={{
         color: red[500],
@@ -41,7 +43,7 @@ const Home: NextPage = () => {
       }}>
         Error: {errorMessage}
       </Box>}
-    </div>
+    </Paper>
   )
 }
 
