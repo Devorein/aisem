@@ -116,6 +116,10 @@ export function generateTheme() {
       button: {
         fontWeight: "bold"
       },
+      h4: {
+        fontWeight: 'bold',
+        fontSize: '1.75em'
+      },
       h5: {
         fontWeight: 'bold',
         fontSize: '1.25em'
