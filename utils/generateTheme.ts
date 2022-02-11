@@ -155,9 +155,12 @@ export function generateTheme() {
       MuiIconButton: {
         styleOverrides: {
           root: {
-            width: '18px',
-            height: '18px'
+            fill: "inherit",
+            color: "inherit",
           }
+        },
+        defaultProps: {
+          disableRipple: true
         }
       },
       MuiSelect: {
