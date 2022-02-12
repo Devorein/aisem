@@ -5,12 +5,14 @@ import { Box, IconButton, Paper, Tooltip, Typography } from "@mui/material";
 import { red } from "@mui/material/colors";
 import { ReactNode, useContext } from "react";
 import ConversionsContext from "../contexts/ConversionsContext";
+import { useScrollbarStyling } from "../hooks/useScrollbarStyling";
 import { FlexAlignCenterBox, FlexColCenterBox } from "./Flex";
 import Header from "./Header";
 
 export default function Conversions() {
   const { conversions } = useContext(ConversionsContext);
   const theme = useTheme();
+  const scrollbarStyling = useScrollbarStyling();
 
   let content: ReactNode = null;
 
@@ -26,6 +28,7 @@ export default function Conversions() {
     </FlexColCenterBox>
   } else {
     content = <FlexColCenterBox justify={"start"} sx={{
+      ...scrollbarStyling,
       flexGrow: 1,
       width: "100%",
       gap: 1,
