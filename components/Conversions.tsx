@@ -1,16 +1,19 @@
 import { useTheme } from "@emotion/react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MemoryIcon from '@mui/icons-material/Memory';
-import { Box, IconButton, Paper, Tooltip, Typography } from "@mui/material";
+import { Box, IconButton, Paper, Radio, Tooltip, Typography } from "@mui/material";
 import { red } from "@mui/material/colors";
 import { ReactNode, useContext } from "react";
+import { hoverTransitionSvgIconSx } from "../constants";
 import ConversionsContext from "../contexts/ConversionsContext";
+import { useScrollbarStyling } from "../hooks/useScrollbarStyling";
 import { FlexAlignCenterBox, FlexColCenterBox } from "./Flex";
 import Header from "./Header";
 
 export default function Conversions() {
-  const { conversions } = useContext(ConversionsContext);
+  const { conversions, setConversions, currentConversion, setCurrentConversion } = useContext(ConversionsContext);
   const theme = useTheme();
+  const scrollbarStyling = useScrollbarStyling();
 
   let content: ReactNode = null;
 
@@ -26,6 +29,7 @@ export default function Conversions() {
     </FlexColCenterBox>
   } else {
     content = <FlexColCenterBox justify={"start"} sx={{
+      ...scrollbarStyling,
       flexGrow: 1,
       width: "100%",
       gap: 1,
@@ -34,29 +38,47 @@ export default function Conversions() {
       p: 1,
       overflow: "auto"
     }}>
-      {conversions.map((conversion, conversionNumber) => <Box sx={{
+      {conversions.map((conversion, conversionNumber) => <FlexAlignCenterBox sx={{
         background: theme.palette.color.dark,
         width: "100%",
-        px: 2,
-        py: 1,
+        p: 1,
         borderRadius: theme.spacing(0.5),
       }} key={`${conversion.hex}.${conversion.operation}.${conversionNumber}`}>
+        <Radio sx={{
+          mr: 1
+        }} value={conversionNumber} checked={currentConversion === conversion} onClick={() => {
+          if (currentConversion === conversion) {
+            setCurrentConversion(null);
+          } else {
+            setCurrentConversion(conversion);
+          }
+        }}/>
         <FlexAlignCenterBox sx={{
           gap: 1,
-          textTransform: "uppercase",
-          justifyContent: "space-between"
+          justifyContent: "space-between",
+          width: "100%"
         }}>
           <FlexAlignCenterBox sx={{
             gap: 1,
           }}>
+            <Box>
+              {conversionNumber + 1}.
+            </Box>
             <Box sx={{
               fontWeight: "bold",
+              textTransform: "uppercase",
             }}>
               {conversion.operation}
             </Box>
-            {conversion.operands.map(operand => <Box key={operand}>{operand}</Box>)}
+            {conversion.operands.map((operand, operandNumber) => <Box key={operand+operandNumber}>{operand}</Box>)}
           </FlexAlignCenterBox>
-          <Tooltip title="Delete" placement="right">
+          <Tooltip sx={hoverTransitionSvgIconSx} onClick={() => {
+              if (currentConversion === currentConversion) {
+                setCurrentConversion(null);
+              }
+              conversions.splice(conversionNumber, 1);
+              setConversions([...conversions])
+            }} title="Delete" placement="right">
             <IconButton>
               <DeleteIcon sx={{
                 fontSize: 16,
@@ -65,13 +87,13 @@ export default function Conversions() {
             </IconButton>
           </Tooltip>
         </FlexAlignCenterBox>
-      </Box>)}
+      </FlexAlignCenterBox>)}
     </FlexColCenterBox>
   }
 
   return <Paper sx={{
-    minWidth: 250,
     height: "100%",
+    minWidth: 300,
     background: theme.palette.color.dark
   }}>
     <FlexColCenterBox justify={"space-between"} sx={{

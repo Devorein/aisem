@@ -103,7 +103,7 @@ export function generateTheme() {
         secondary: text.secondary
       },
       background: {
-        default: base
+        default: base,
       },
       primary: {
         main: primaryMain
