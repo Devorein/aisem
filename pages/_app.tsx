@@ -10,8 +10,9 @@ const generatedTheme = generateTheme();
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [conversions, setConversions] = useState<IConversion[]>([]);
+  const [currentConversion, setCurrentConversion] = useState<IConversion | null>(null);
   return <ThemeProvider theme={generatedTheme}>
-    <ConversionsContext.Provider value={{conversions, setConversions}}>
+    <ConversionsContext.Provider value={{currentConversion, setCurrentConversion, conversions, setConversions}}>
       <Component {...pageProps} />
     </ConversionsContext.Provider>
   </ThemeProvider>
