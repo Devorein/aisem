@@ -41,11 +41,12 @@ export default function Conversions() {
       {conversions.map((conversion, conversionNumber) => <FlexAlignCenterBox sx={{
         background: theme.palette.color.dark,
         width: "100%",
-        px: 2,
-        py: 1,
+        p: 1,
         borderRadius: theme.spacing(0.5),
       }} key={`${conversion.hex}.${conversion.operation}.${conversionNumber}`}>
-        <Radio value={conversionNumber} checked={currentConversion === conversion} onClick={() => {
+        <Radio sx={{
+          mr: 1
+        }} value={conversionNumber} checked={currentConversion === conversion} onClick={() => {
           if (currentConversion === conversion) {
             setCurrentConversion(null);
           } else {
@@ -90,7 +91,6 @@ export default function Conversions() {
   }
 
   return <Paper sx={{
-    minWidth: 250,
     height: "100%",
     background: theme.palette.color.dark
   }}>

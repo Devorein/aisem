@@ -24,4 +24,5 @@ export interface IConversion {
   operands: string[]
   binary: string
   hex: string
+  chunks: string[]
 }

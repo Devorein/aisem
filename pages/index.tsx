@@ -5,7 +5,7 @@ import MemoryIcon from '@mui/icons-material/Memory';
 import { Box, Button, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { red } from '@mui/material/colors';
 import type { NextPage } from 'next';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Conversions from '../components/Conversions';
 import { FlexAlignCenter, FlexColCenter } from '../components/Flex';
 import Snackbar from '../components/Snackbar';
@@ -36,9 +36,16 @@ const Home: NextPage = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const { handleClose, isOpen, message, showMessage } = useSnackbar();
   const theme = useTheme();
-  const {setConversions} = useContext(ConversionsContext);
+  const {currentConversion, setConversions} = useContext(ConversionsContext);
 
   const hexadecimal = machineCode ? parseInt(machineCode.join(""), 2).toString(16).toUpperCase() : 0xff;
+
+  useEffect(() => {
+    if (currentConversion) {
+      setAssemblyInstruction(`${currentConversion.operation} ${currentConversion.operands.join(" ")}`);
+      setMachineCode(currentConversion.chunks);
+    }
+  }, [currentConversion]);
 
   return (
     <FlexAlignCenter sx={{
@@ -72,7 +79,8 @@ const Home: NextPage = () => {
                   binary,
                   hex,
                   operands: tokens.slice(1),
-                  operation: tokens[0]
+                  operation: tokens[0],
+                  chunks: machineCodeChunks
                 }]))
               } catch (err: any) {
                 setErrorMessage(err.message)
