@@ -10,7 +10,7 @@ import { FlexAlignCenterBox, FlexColCenterBox } from "./Flex";
 import Header from "./Header";
 
 export default function Conversions() {
-  const { conversions } = useContext(ConversionsContext);
+  const { conversions, setConversions } = useContext(ConversionsContext);
   const theme = useTheme();
   const scrollbarStyling = useScrollbarStyling();
 
@@ -37,13 +37,14 @@ export default function Conversions() {
       p: 1,
       overflow: "auto"
     }}>
-      {conversions.map((conversion, conversionNumber) => <Box sx={{
+      {conversions.map((conversion, conversionNumber) => <FlexAlignCenterBox sx={{
         background: theme.palette.color.dark,
         width: "100%",
         px: 2,
         py: 1,
         borderRadius: theme.spacing(0.5),
       }} key={`${conversion.hex}.${conversion.operation}.${conversionNumber}`}>
+
         <FlexAlignCenterBox sx={{
           gap: 1,
           textTransform: "uppercase",
@@ -52,6 +53,9 @@ export default function Conversions() {
           <FlexAlignCenterBox sx={{
             gap: 1,
           }}>
+            <Box>
+              {conversionNumber + 1}.
+            </Box>
             <Box sx={{
               fontWeight: "bold",
             }}>
@@ -61,14 +65,17 @@ export default function Conversions() {
           </FlexAlignCenterBox>
           <Tooltip title="Delete" placement="right">
             <IconButton>
-              <DeleteIcon sx={{
+              <DeleteIcon onClick={() => {
+                conversions.splice(conversionNumber, 1);
+                setConversions([...conversions])
+              }} sx={{
                 fontSize: 16,
                 fill: red[500]
               }}/>
             </IconButton>
           </Tooltip>
         </FlexAlignCenterBox>
-      </Box>)}
+      </FlexAlignCenterBox>)}
     </FlexColCenterBox>
   }
 
