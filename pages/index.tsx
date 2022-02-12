@@ -36,9 +36,35 @@ const Home: NextPage = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const { handleClose, isOpen, message, showMessage } = useSnackbar();
   const theme = useTheme();
-  const {currentConversion, setConversions} = useContext(ConversionsContext);
+  const {conversions, currentConversion, setConversions} = useContext(ConversionsContext);
 
   const hexadecimal = machineCode ? parseInt(machineCode.join(""), 2).toString(16).toUpperCase() : 0xff;
+
+  function convert() {
+    if (assemblyInstruction) {
+      try {
+        const machineCodeChunks = convertToMachineCode(assemblyInstruction);
+        const binary = machineCodeChunks.join("");
+        const hex = parseInt(binary, 2).toString(16).toUpperCase();
+        const tokens = assemblyInstruction.split(" ");
+        setMachineCode(machineCodeChunks);
+        setErrorMessage(null);
+        // Find an existing conversion
+        const conversion = conversions.find(conversion => conversion.operation === tokens[0] && conversion.operands.join(",") === tokens.slice(1).join(","));
+        if (!conversion) {
+          setConversions((conversions) => ([...conversions, {
+            binary,
+            hex,
+            operands: tokens.slice(1),
+            operation: tokens[0],
+            chunks: machineCodeChunks
+          }]))
+        }
+      } catch (err: any) {
+        setErrorMessage(err.message)
+      }
+    }
+  }
 
   useEffect(() => {
     if (currentConversion) {
@@ -59,34 +85,20 @@ const Home: NextPage = () => {
         width: "100%",
         boxShadow: "none"
       }}>
-        <TextField onChange={e => setAssemblyInstruction(e.target.value)} value={assemblyInstruction} />
+        <TextField onKeyPress={(ev) => {
+          if (ev.code === "Enter") {
+            convert();
+          }
+        }} onChange={e => {
+          setAssemblyInstruction(e.target.value)
+        }} value={assemblyInstruction} />
         <FlexAlignCenter sx={{
           gap: 1
         }}>
           <Button sx={{
             display: "flex",
             gap: 1
-          }} variant="contained" disabled={!assemblyInstruction} onClick={() => {
-            if (assemblyInstruction) {
-              try {
-                const machineCodeChunks = convertToMachineCode(assemblyInstruction);
-                const binary = machineCodeChunks.join("");
-                const hex = parseInt(binary, 2).toString(16).toUpperCase();
-                const tokens = assemblyInstruction.split(" ");
-                setMachineCode(machineCodeChunks);
-                setErrorMessage(null);
-                setConversions((conversions) => ([...conversions, {
-                  binary,
-                  hex,
-                  operands: tokens.slice(1),
-                  operation: tokens[0],
-                  chunks: machineCodeChunks
-                }]))
-              } catch (err: any) {
-                setErrorMessage(err.message)
-              }
-            }
-          }}>
+          }} variant="contained" disabled={!assemblyInstruction} onClick={convert}>
             <MemoryIcon />
             <Typography variant="button">
               Convert

@@ -92,6 +92,7 @@ export default function Conversions() {
 
   return <Paper sx={{
     height: "100%",
+    minWidth: 300,
     background: theme.palette.color.dark
   }}>
     <FlexColCenterBox justify={"space-between"} sx={{
