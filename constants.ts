@@ -1,3 +1,5 @@
+import { Theme } from "@emotion/react";
+import { SxProps } from "@mui/material";
 import { RTypeInstruction, RTypeOperations } from "./types";
 
 export const R_TYPE_OPERATIONS = ['add', 'addu', 'and', 'break', 'div', 'divu', 'jalr', 'jr', 'mfhi', 'mflo', 'mthi', 'mtlo', 'mult', 'multu', 'nor', 'or', 'sll', 'sllv', 'slt', 'sltu', 'sra', 'srav', 'srl', 'srlv', 'sub', 'subu', 'syscall', 'xor'] as const
@@ -318,3 +320,13 @@ export const R_TYPE_INSTRUCTIONS_MAP: Map<RTypeOperations, RTypeInstruction> = n
     }
   ]
 ]);
+
+export const hoverTransitionSvgIconSx: SxProps<Theme> = {
+  "&": {
+    transition: "transform 250ms ease-in-out",
+  },
+  "&:hover": {
+    transform: `scale(1.15)`,
+    transition: "transform 250ms ease-in-out",
+  },
+};

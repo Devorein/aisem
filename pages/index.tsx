@@ -9,6 +9,7 @@ import { useContext, useState } from 'react';
 import Conversions from '../components/Conversions';
 import { FlexAlignCenter, FlexColCenter } from '../components/Flex';
 import Snackbar from '../components/Snackbar';
+import { hoverTransitionSvgIconSx } from '../constants';
 import ConversionsContext from '../contexts/ConversionsContext';
 import useSnackbar from '../hooks/useSnackbar';
 import convertToMachineCode from '../libs/convertAssemblyToMachineCode';
@@ -20,6 +21,14 @@ const BinaryCode = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center"
 }));
+
+const StyledContentCopyIcon = styled(ContentCopyIcon)(() => ({
+  ...hoverTransitionSvgIconSx
+}));
+
+const CopyIcon = () => {
+  return <StyledContentCopyIcon fontSize='small'/>
+}
 
 const Home: NextPage = () => {
   const [assemblyInstruction, setAssemblyInstruction] = useState<string>("");
@@ -91,7 +100,7 @@ const Home: NextPage = () => {
               navigator.clipboard.writeText(machineCode.join(""))
             }} title={"Copy binary to clipboard"} placement={"right"}>
               <IconButton>
-                <ContentCopyIcon fontSize="small" />
+                <CopyIcon />
               </IconButton>
             </Tooltip>}
           </FlexAlignCenter>
@@ -103,7 +112,7 @@ const Home: NextPage = () => {
               navigator.clipboard.writeText(hexadecimal.toString())
             }} title={"Copy hex to clipboard"} placement={"right"}>
               <IconButton>
-                <ContentCopyIcon fontSize="small" />
+                <CopyIcon />
               </IconButton>
             </Tooltip>}
           </FlexAlignCenter>
