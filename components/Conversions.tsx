@@ -55,7 +55,8 @@ export default function Conversions() {
         }}/>
         <FlexAlignCenterBox sx={{
           gap: 1,
-          justifyContent: "space-between"
+          justifyContent: "space-between",
+          width: "100%"
         }}>
           <FlexAlignCenterBox sx={{
             gap: 1,
