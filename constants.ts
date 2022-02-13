@@ -4,7 +4,7 @@ import { RTypeInstruction, RTypeOperations } from "./types";
 
 export const R_TYPE_OPERATIONS = ['add', 'addu', 'and', 'break', 'div', 'divu', 'jalr', 'jr', 'mfhi', 'mflo', 'mthi', 'mtlo', 'mult', 'multu', 'nor', 'or', 'sll', 'sllv', 'slt', 'sltu', 'sra', 'srav', 'srl', 'srlv', 'sub', 'subu', 'syscall', 'xor'] as const
 export const R_TYPE_SLOTS = ["rs", "rd", "rt", "sa"] as const;
-
+export const R_TYPE_FORMAT = ["op", "rs", "rt", "rd", "sa", "fn"]
 export const R_TYPE_INSTRUCTIONS_MAP: Map<RTypeOperations, RTypeInstruction> = new Map([
   [
     "add",

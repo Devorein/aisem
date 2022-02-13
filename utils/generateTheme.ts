@@ -140,7 +140,8 @@ export function generateTheme() {
       MuiPaper: {
         styleOverrides: {
           root: {
-            backgroundColor: base
+            backgroundColor: base,
+            borderRadius: 0
           }
         }
       },

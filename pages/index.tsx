@@ -7,9 +7,9 @@ import { red } from '@mui/material/colors';
 import type { NextPage } from 'next';
 import { useContext, useEffect, useState } from 'react';
 import Conversions from '../components/Conversions';
-import { FlexAlignCenter, FlexColCenter } from '../components/Flex';
+import { FlexAlignCenter, FlexColCenter, FlexColCenterBox } from '../components/Flex';
 import Snackbar from '../components/Snackbar';
-import { hoverTransitionSvgIconSx } from '../constants';
+import { hoverTransitionSvgIconSx, R_TYPE_FORMAT } from '../constants';
 import ConversionsContext from '../contexts/ConversionsContext';
 import useSnackbar from '../hooks/useSnackbar';
 import convertToMachineCode from '../libs/convertAssemblyToMachineCode';
@@ -115,7 +115,13 @@ const Home: NextPage = () => {
           <FlexAlignCenter sx={{
             gap: 1, p: 1
           }}>
-            <Box sx={{mr: 1}}>Binary:</Box> {machineCode?.map((chunk, index) => <BinaryCode key={chunk + index}>{chunk}</BinaryCode>) ?? "N/A"} {machineCode && <Tooltip onClick={() => {
+            <Box sx={{mr: 1}}>Binary:</Box> {machineCode?.map((chunk, index) => <FlexColCenterBox key={chunk + index}>
+              <Box sx={{
+                fontWeight: "bold",
+                mb: 0.5
+              }}>{R_TYPE_FORMAT[index]}</Box>
+              <BinaryCode>{chunk}</BinaryCode>
+            </FlexColCenterBox>) ?? "N/A"} {machineCode && <Tooltip onClick={() => {
               showMessage("Copied binary to clipboard");
               navigator.clipboard.writeText(machineCode.join(""))
             }} title={"Copy binary to clipboard"} placement={"right"}>
