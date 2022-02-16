@@ -357,8 +357,8 @@ export const I_TYPE_INSTRUCTIONS_MAP: Map<ITypeOperations, ITypeInstruction> = n
       "op": "addi",
       "fn": "001000",
       "slots": [
-        "rs",
         "rt",
+        "rs",
         "imm"
       ]
     }
@@ -369,8 +369,8 @@ export const I_TYPE_INSTRUCTIONS_MAP: Map<ITypeOperations, ITypeInstruction> = n
       "op": "addiu",
       "fn": "001001",
       "slots": [
-        "rs",
         "rt",
+        "rs",
         "imm"
       ]
     }
@@ -381,8 +381,8 @@ export const I_TYPE_INSTRUCTIONS_MAP: Map<ITypeOperations, ITypeInstruction> = n
       "op": "andi",
       "fn": "001100",
       "slots": [
-        "rs",
         "rt",
+        "rs",
         "imm"
       ]
     }
@@ -393,8 +393,8 @@ export const I_TYPE_INSTRUCTIONS_MAP: Map<ITypeOperations, ITypeInstruction> = n
       "op": "beq",
       "fn": "000100",
       "slots": [
-        "rs",
         "rt",
+        "rs",
         "label"
       ]
     }
@@ -449,8 +449,8 @@ export const I_TYPE_INSTRUCTIONS_MAP: Map<ITypeOperations, ITypeInstruction> = n
       "op": "bne",
       "fn": "000101",
       "slots": [
-        "rs",
         "rt",
+        "rs",
         "label"
       ]
     }
@@ -538,8 +538,8 @@ export const I_TYPE_INSTRUCTIONS_MAP: Map<ITypeOperations, ITypeInstruction> = n
       "op": "ori",
       "fn": "001101",
       "slots": [
-        "rs",
         "rt",
+        "rs",
         "imm"
       ]
     }
@@ -561,8 +561,8 @@ export const I_TYPE_INSTRUCTIONS_MAP: Map<ITypeOperations, ITypeInstruction> = n
       "op": "slti",
       "fn": "001010",
       "slots": [
-        "rs",
         "rt",
+        "rs",
         "imm"
       ]
     }
@@ -573,8 +573,8 @@ export const I_TYPE_INSTRUCTIONS_MAP: Map<ITypeOperations, ITypeInstruction> = n
       "op": "sltiu",
       "fn": "001011",
       "slots": [
-        "rs",
         "rt",
+        "rs",
         "imm"
       ]
     }
@@ -618,8 +618,8 @@ export const I_TYPE_INSTRUCTIONS_MAP: Map<ITypeOperations, ITypeInstruction> = n
       "op": "xori",
       "fn": "001110",
       "slots": [
-        "rs",
         "rt",
+        "rs",
         "imm"
       ]
     }

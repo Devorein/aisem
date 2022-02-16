@@ -116,11 +116,11 @@ export default function convertAssemblyToMachineCode(assemblyInstruction: string
       }
 
       if (slotsSet.has("imm")) {
-        instruction.imm = dec2bin(Number(operands[slots.indexOf("imm")]), 15)
+        instruction.imm = dec2bin(Number(operands[slots.indexOf("imm")]), 16)
       }
 
       if (slotsSet.has("label")) {
-        instruction.imm = dec2bin(Number(operands[slots.indexOf("label")]), 15)
+        instruction.imm = dec2bin(Number(operands[slots.indexOf("label")]), 16)
       }
 
       return [

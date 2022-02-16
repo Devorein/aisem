@@ -1,6 +1,17 @@
 import convertAssemblyToMachineCode from "../libs/convertAssemblyToMachineCode";
 
-describe('convertAssemblyToMachineCode', () => { 
+describe('convertAssemblyToMachineCode', () => {
+  describe('I Type operation', () => { 
+    it(`addi operation`, () => {
+      expect(convertAssemblyToMachineCode("addi $t0 $t1 1")).toEqual([
+        "001000",
+        "01001",
+        "01000",
+        "0000000000000001",
+      ]);
+    })
+  })
+
   describe('R type operation', () => { 
     it(`add operation`, () => {
       expect(convertAssemblyToMachineCode("add $t0 $t1 $t2")).toEqual([
