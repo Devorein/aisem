@@ -1,6 +1,10 @@
 import { I_TYPE_INSTRUCTIONS_MAP, R_TYPE_INSTRUCTIONS_MAP } from "../constants";
-import { ITypeInstructionSet, ITypeOperations, RTypeOperations } from "../types";
+import { ITypeInstructionSet, ITypeOperations, RTypeInstructionSet, RTypeOperations } from "../types";
 import convertRegisterToBinary, { dec2bin } from "./convertRegisterToBinary";
+
+function zeros(total: number) {
+  return new Array(total).fill("0").join("")
+}
 
 export default function convertAssemblyToMachineCode(assemblyInstruction: string) {
   const tokens = assemblyInstruction.split(" ");
@@ -18,8 +22,14 @@ export default function convertAssemblyToMachineCode(assemblyInstruction: string
     if (totalSlots !== operands.length) {
       throw new Error(`Operation ${operation} requires ${slots.join(",")}. Given ${slots.slice(0, operands.length).join(",")}`)
     } else {
-      // First 6 zeros represent a r type instruction
-      const chunks: string[] = ["000000"];
+      const instruction: RTypeInstructionSet = {
+        fn: rTypeOperation.fn,
+        op: zeros(6),
+        rd: zeros(5),
+        rs: zeros(5),
+        rt: zeros(5),
+        sa: zeros(5),
+      };
 
       // ALGORITHM
       // find the index of slot inside of slots
@@ -32,31 +42,29 @@ export default function convertAssemblyToMachineCode(assemblyInstruction: string
       // operands[0] => 2
 
       if (slotsSet.has("rs")) {
-        chunks.push(convertRegisterToBinary(operands[slots.indexOf("rs")]))
-      } else {
-        chunks.push("00000")
+        instruction.rs = convertRegisterToBinary(operands[slots.indexOf("rs")])
       }
 
       if (slotsSet.has("rt")) {
-        chunks.push(convertRegisterToBinary(operands[slots.indexOf("rt")]))
-      } else {
-        chunks.push("00000")
+        instruction.rt = convertRegisterToBinary(operands[slots.indexOf("rt")])
       }
 
       if (slotsSet.has("rd")) {
-        chunks.push(convertRegisterToBinary(operands[slots.indexOf("rd")]))
-      } else {
-        chunks.push("00000")
+        instruction.rd = convertRegisterToBinary(operands[slots.indexOf("rd")])
       }
 
       // TODO: Might not work for negative numbers
       if (slotsSet.has("sa")) {
-        chunks.push(dec2bin(Number(operands[slots.indexOf("sa")]), 5))
-      } else {
-        chunks.push("00000")
+        instruction.sa = dec2bin(Number(operands[slots.indexOf("sa")]), 5)
       }
-      chunks.push(rTypeOperation.fn)
-      return chunks
+      return [
+        instruction.op,
+        instruction.rs,
+        instruction.rt,
+        instruction.rd,
+        instruction.sa,
+        instruction.fn,
+      ]
     }
   } else if (jTypeOperation) {
     const { slots } = jTypeOperation;
@@ -68,9 +76,9 @@ export default function convertAssemblyToMachineCode(assemblyInstruction: string
     } else {
       const instruction: ITypeInstructionSet = {
         op: jTypeOperation.fn,
-        imm: new Array(16).fill("0").join(""),
-        rs: new Array(5).fill("0").join(""),
-        rt: new Array(5).fill("0").join("")
+        imm: zeros(16),
+        rs: zeros(5),
+        rt: zeros(5),
       };
 
       if (slotsSet.has("imm(rs)")) {
@@ -114,6 +122,13 @@ export default function convertAssemblyToMachineCode(assemblyInstruction: string
       if (slotsSet.has("label")) {
         instruction.imm = dec2bin(Number(operands[slots.indexOf("label")]), 15)
       }
+
+      return [
+        instruction.op,
+        instruction.rs,
+        instruction.rt,
+        instruction.imm,
+      ]
     }
   }
   // If its not a valid operation we need to throw an error

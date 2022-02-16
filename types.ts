@@ -17,6 +17,15 @@ export interface RTypeInstruction {
   fn: string
 }
 
+export interface RTypeInstructionSet {
+  op: string
+  rs: string
+  rt: string
+  rd: string
+  sa: string
+  fn: string
+}
+
 export interface ITypeInstructionSet {
   op: string
   rs: string
