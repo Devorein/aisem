@@ -11,16 +11,23 @@ export type RTypeSlots = typeof R_TYPE_SLOTS[number];
 export type ITypeOperations = typeof I_TYPE_OPERATIONS[number];
 export type ITypeSlots = typeof I_TYPE_SLOTS[number];
 
-export interface Instruction <Operation, Slots> {
-  op: Operation
-  slots: Slots[]
+export interface RTypeInstruction {
+  op: RTypeOperations
+  slots: RTypeSlots[]
   fn: string
 }
 
-export interface RTypeInstruction extends Instruction<RTypeOperations, RTypeSlots>{
+export interface ITypeInstructionSet {
+  op: string
+  rs: string
+  rt: string
+  imm: string
 }
 
-export interface ITypeInstruction extends Instruction<ITypeOperations, ITypeSlots>{
+export interface ITypeInstruction {
+  op: ITypeOperations
+  slots: ITypeSlots[]
+  fn: string
 }
 
 export interface IConversion {
