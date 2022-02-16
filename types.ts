@@ -1,4 +1,4 @@
-import { R_TYPE_OPERATIONS, R_TYPE_SLOTS } from "./constants";
+import { I_TYPE_OPERATIONS, I_TYPE_SLOTS, R_TYPE_OPERATIONS, R_TYPE_SLOTS } from "./constants";
 
 export interface AssemblyOperation {
   operation: "ADD" | "SUB" | "MUL" | "DIV"
@@ -7,16 +7,20 @@ export interface AssemblyOperation {
 }
 export type RTypeOperations = typeof R_TYPE_OPERATIONS[number];
 export type RTypeSlots = typeof R_TYPE_SLOTS[number];
-export interface RTypeInstruction {
-  op: RTypeOperations
-  slots: RTypeSlots[]
+
+export type ITypeOperations = typeof I_TYPE_OPERATIONS[number];
+export type ITypeSlots = typeof I_TYPE_SLOTS[number];
+
+export interface Instruction <Operation, Slots> {
+  op: Operation
+  slots: Slots[]
   fn: string
 }
 
-export interface Instruction {
-  op: string
-  slots: string[]
-  fn: string
+export interface RTypeInstruction extends Instruction<RTypeOperations, RTypeSlots>{
+}
+
+export interface ITypeInstruction extends Instruction<ITypeOperations, ITypeSlots>{
 }
 
 export interface IConversion {

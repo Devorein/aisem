@@ -1,10 +1,39 @@
 import { Theme } from "@emotion/react";
 import { SxProps } from "@mui/material";
-import { RTypeInstruction, RTypeOperations } from "./types";
+import { ITypeInstruction, ITypeOperations, RTypeInstruction, RTypeOperations } from "./types";
 
 export const R_TYPE_OPERATIONS = ['add', 'addu', 'and', 'break', 'div', 'divu', 'jalr', 'jr', 'mfhi', 'mflo', 'mthi', 'mtlo', 'mult', 'multu', 'nor', 'or', 'sll', 'sllv', 'slt', 'sltu', 'sra', 'srav', 'srl', 'srlv', 'sub', 'subu', 'syscall', 'xor'] as const
 export const R_TYPE_SLOTS = ["rs", "rd", "rt", "sa"] as const;
 export const R_TYPE_FORMAT = ["op", "rs", "rt", "rd", "sa", "fn"]
+export const I_TYPE_OPERATIONS = [
+  "addi",
+  "addiu",
+  "andi",
+  "beq",
+  "bgez",
+  "bgtz",
+  "blez",
+  "bltz",
+  "bne",
+  "lb",
+  "lbu",
+  "lh",
+  "lhu",
+  "lui",
+  "lw",
+  "lwc1",
+  "ori",
+  "sb",
+  "slti",
+  "sltiu",
+  "sh",
+  "sw",
+  "swc1",
+  "xori"
+] as const;
+export const I_TYPE_SLOTS = ["rs", "rt", "label", "imm", "imm(rs)"] as const;
+export const I_TYPE_FORMAT = ["op", "rs", "rt", "imm"];
+
 export const R_TYPE_INSTRUCTIONS_MAP: Map<RTypeOperations, RTypeInstruction> = new Map([
   [
     "add",
@@ -320,6 +349,282 @@ export const R_TYPE_INSTRUCTIONS_MAP: Map<RTypeOperations, RTypeInstruction> = n
     }
   ]
 ]);
+
+export const I_TYPE_INSTRUCTIONS_MAP: Map<ITypeOperations, ITypeInstruction> = new Map([
+  [
+    "addi",
+    {
+      "op": "addi",
+      "fn": "001000",
+      "slots": [
+        "rs",
+        "rt",
+        "imm"
+      ]
+    }
+  ],
+  [
+    "addiu",
+    {
+      "op": "addiu",
+      "fn": "001001",
+      "slots": [
+        "rs",
+        "rt",
+        "imm"
+      ]
+    }
+  ],
+  [
+    "andi",
+    {
+      "op": "andi",
+      "fn": "001100",
+      "slots": [
+        "rs",
+        "rt",
+        "imm"
+      ]
+    }
+  ],
+  [
+    "beq",
+    {
+      "op": "beq",
+      "fn": "000100",
+      "slots": [
+        "rs",
+        "rt",
+        "label"
+      ]
+    }
+  ],
+  [
+    "bgez",
+    {
+      "op": "bgez",
+      "fn": "000001",
+      "slots": [
+        "rs",
+        "label"
+      ]
+    }
+  ],
+  [
+    "bgtz",
+    {
+      "op": "bgtz",
+      "fn": "000111",
+      "slots": [
+        "rs",
+        "label"
+      ]
+    }
+  ],
+  [
+    "blez",
+    {
+      "op": "blez",
+      "fn": "000110",
+      "slots": [
+        "rs",
+        "label"
+      ]
+    }
+  ],
+  [
+    "bltz",
+    {
+      "op": "bltz",
+      "fn": "000001",
+      "slots": [
+        "rs",
+        "label"
+      ]
+    }
+  ],
+  [
+    "bne",
+    {
+      "op": "bne",
+      "fn": "000101",
+      "slots": [
+        "rs",
+        "rt",
+        "label"
+      ]
+    }
+  ],
+  [
+    "lb",
+    {
+      "op": "lb",
+      "fn": "100000",
+      "slots": [
+        "rt",
+        "imm(rs)"
+      ]
+    }
+  ],
+  [
+    "lbu",
+    {
+      "op": "lbu",
+      "fn": "100100",
+      "slots": [
+        "rt",
+        "imm(rs)"
+      ]
+    }
+  ],
+  [
+    "lh",
+    {
+      "op": "lh",
+      "fn": "100001",
+      "slots": [
+        "rt",
+        "imm(rs)"
+      ]
+    }
+  ],
+  [
+    "lhu",
+    {
+      "op": "lhu",
+      "fn": "100101",
+      "slots": [
+        "rt",
+        "imm(rs)"
+      ]
+    }
+  ],
+  [
+    "lui",
+    {
+      "op": "lui",
+      "fn": "001111",
+      "slots": [
+        "rt",
+        "imm"
+      ]
+    }
+  ],
+  [
+    "lw",
+    {
+      "op": "lw",
+      "fn": "100011",
+      "slots": [
+        "rt",
+        "imm(rs)"
+      ]
+    }
+  ],
+  [
+    "lwc1",
+    {
+      "op": "lwc1",
+      "fn": "110001",
+      "slots": [
+        "rt",
+        "imm(rs)"
+      ]
+    }
+  ],
+  [
+    "ori",
+    {
+      "op": "ori",
+      "fn": "001101",
+      "slots": [
+        "rs",
+        "rt",
+        "imm"
+      ]
+    }
+  ],
+  [
+    "sb",
+    {
+      "op": "sb",
+      "fn": "101000",
+      "slots": [
+        "rt",
+        "imm(rs)"
+      ]
+    }
+  ],
+  [
+    "slti",
+    {
+      "op": "slti",
+      "fn": "001010",
+      "slots": [
+        "rs",
+        "rt",
+        "imm"
+      ]
+    }
+  ],
+  [
+    "sltiu",
+    {
+      "op": "sltiu",
+      "fn": "001011",
+      "slots": [
+        "rs",
+        "rt",
+        "imm"
+      ]
+    }
+  ],
+  [
+    "sh",
+    {
+      "op": "sh",
+      "fn": "101001",
+      "slots": [
+        "rt",
+        "imm(rs)"
+      ]
+    }
+  ],
+  [
+    "sw",
+    {
+      "op": "sw",
+      "fn": "101011",
+      "slots": [
+        "rt",
+        "imm(rs)"
+      ]
+    }
+  ],
+  [
+    "swc1",
+    {
+      "op": "swc1",
+      "fn": "111001",
+      "slots": [
+        "rt",
+        "imm(rs)"
+      ]
+    }
+  ],
+  [
+    "xori",
+    {
+      "op": "xori",
+      "fn": "001110",
+      "slots": [
+        "rs",
+        "rt",
+        "imm"
+      ]
+    }
+  ]
+])
 
 export const hoverTransitionSvgIconSx: SxProps<Theme> = {
   "&": {

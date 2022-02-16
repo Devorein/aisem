@@ -72,7 +72,13 @@ export default function convert(register: string) {
         }
         throw new Error(`Valid register ranges are from 8-15, 24-25 and 16-23`);
 			}
-		}
+		} else {
+      if (registerChunks[0] === 't') {
+				throw new Error(`Valid t register range is from 0-9`);
+			} else if (registerChunks[0] === 's') {
+		    throw new Error(`Valid s register ranges is from 0-7`);
+      }
+    }
 		throw new Error(`Invalid register format. Use $11, $t1, $s5 ...`);
 	}
 
